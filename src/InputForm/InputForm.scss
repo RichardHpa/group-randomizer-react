@@ -1,0 +1,19 @@
+@import '../variables';
+
+form{
+    width: 100%;
+    p{
+        color: #ecf0f1;
+        font-weight: 300;
+    }
+    textarea{
+        font-family: 'Open Sans', sans-serif;
+        width: 100%;
+        resize: none;
+        height: 400px;
+        border: 10px solid #c8d6e5;
+        font-size: 18px;
+        padding: 18px;
+        transition: border-color 0.4s ease-out;
+    }
+}
