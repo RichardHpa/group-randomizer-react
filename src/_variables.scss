@@ -1,2 +1,10 @@
 $backgroundColour: #58DDAF;
 $loaderColour: #2980b9;
+
+@mixin clear(){
+    &::after{
+        clear: both;
+        content: '';
+        display: block;
+    }
+}

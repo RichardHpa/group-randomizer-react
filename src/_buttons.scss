@@ -1,0 +1,31 @@
+.btn{
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border: none;
+    border-radius: 0;
+    font-weight: 400;
+    color: black;
+}
+
+.btn:hover{
+    opacity: 0.8;
+}
+
+.btn-start{
+    background-color: #0abde3;
+    border-color: #0abde3;
+    color: #fff;
+}
+
+.btn-stop{
+    background-color: #ee5253;
+    border-color: #ee5253;
+    color: #fff;
+}
