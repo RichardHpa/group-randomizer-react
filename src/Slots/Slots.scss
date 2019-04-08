@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import '../variables';
+
+#slotContainer{
+    width: 100%;
+    max-width: 1000px;
+    border: 0px solid transparent;
+    transition: border 0.8s ease-out;
+    border: 10px solid #c8d6e5 !important;
+    display: flex;
+    @include clear;
+}
+
+.slot{
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    ul {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        height: 100px;
+        list-style: none;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        li{
+            position: relative;
+            display: block;
+            margin: 0;
+            padding: 0;
+            height: 100px;
+            background: #8395a7;
+            text-align: center;
+            line-height: 100px;
+            &.secondItem{
+                background: #576574;
+                color: white;
+            }
+        }
+    }
+    &:first-child{
+        ul{
+            border-left: 0;
+        }
+    }
+    &:last-child{
+        ul{
+            border-right: 0;
+        }
+    }
+}

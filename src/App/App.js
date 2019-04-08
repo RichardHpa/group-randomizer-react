@@ -10,7 +10,7 @@ class App extends Component {
         this.state = {
             loading: true,
             originalNames: [],
-            groups: {},
+            groups: [],
             groupsCreated: false,
             selectedOption: 'numGroup',
             numberOfGroups: 0,
@@ -29,26 +29,50 @@ class App extends Component {
         this.setState({
             loading: true
         })
-        var numberOfGroups
+        var numberOfGroups, maxNumber;
         if(values['option'] === 'numGroup'){
             numberOfGroups = values['number'];
+            maxNumber = Math.ceil(values['names'].length / values['number']);
         } else {
             numberOfGroups = Math.ceil(values['names'].length / values['number']);
+            maxNumber = values['number'];
         }
         var shuffled = this.randomize(values['names']);
-        var groups = {};
-        for (var k = 1; k <= numberOfGroups; k++) {
-            groups['group'+(k)] = [];
+
+        // console.log("Number of groups is " + numberOfGroups);
+        // console.log("Max number of people per groups is " + maxNumber);
+        // var groups = {};
+        // for (var k = 1; k <= numberOfGroups; k++) {
+        //     groups['group'+(k)] = [];
+        // }
+
+        // for (var i = 0; i < shuffled.length; i++) {
+        //     if(j )
+        //     groups['group'+j].push({
+        //         name: shuffled[i]
+        //     })
+        //     j++;
+        //     if(j === numberOfGroups+1){
+        //         j=1;
+        //     }
+        // }
+        var j = 0;
+        var groups = [];
+        var currentGroup = [];
+        for (var i = 0; i < numberOfGroups; i++) {
+            groups.push([]);
         }
-        var j = 1;
         for (var i = 0; i < shuffled.length; i++) {
-            if(j )
-            groups['group'+j].push({
-                name: shuffled[i]
-            })
+            // currentGroup.push(shuffled[i]);
+            // if(currentGroup.length === maxNumber){
+            //     groups.push(currentGroup);
+            //     currentGroup = [];
+            // }
+
+            groups[j].push(shuffled[i]);
             j++;
-            if(j === numberOfGroups+1){
-                j=1;
+            if(j === numberOfGroups){
+                j = 0;
             }
         }
         this.setState({
@@ -91,7 +115,9 @@ class App extends Component {
                         createSlots={this.handleCreateSlots}
                     />}
                     {groupsCreated && <Slots
-                            names={names}
+                            originalNames={this.state.originalNames}
+                            numberOfGroups={this.state.numberOfGroups}
+                            groups={this.state.groups}
                         />}
                 </div>
             );
