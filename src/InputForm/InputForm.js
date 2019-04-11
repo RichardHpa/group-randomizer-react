@@ -6,7 +6,7 @@ class InputForm extends Component {
         super(props);
         this.state = {
             selectedOption: 'numGroup',
-            numberOf: 1,
+            numberOf: 3,
             names: [],
             errors: {
                 names: false,
