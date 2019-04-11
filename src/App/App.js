@@ -29,49 +29,26 @@ class App extends Component {
         this.setState({
             loading: true
         })
-        var numberOfGroups, maxNumber;
+        var numberOfGroups;
+        // var maxNumber;
         if(values['option'] === 'numGroup'){
             numberOfGroups = values['number'];
-            maxNumber = Math.ceil(values['names'].length / values['number']);
+            // maxNumber = Math.ceil(values['names'].length / values['number']);
         } else {
             numberOfGroups = Math.ceil(values['names'].length / values['number']);
-            maxNumber = values['number'];
+            // maxNumber = values['number'];
         }
         var shuffled = this.randomize(values['names']);
 
-        // console.log("Number of groups is " + numberOfGroups);
-        // console.log("Max number of people per groups is " + maxNumber);
-        // var groups = {};
-        // for (var k = 1; k <= numberOfGroups; k++) {
-        //     groups['group'+(k)] = [];
-        // }
-
-        // for (var i = 0; i < shuffled.length; i++) {
-        //     if(j )
-        //     groups['group'+j].push({
-        //         name: shuffled[i]
-        //     })
-        //     j++;
-        //     if(j === numberOfGroups+1){
-        //         j=1;
-        //     }
-        // }
         var j = 0;
         var groups = [];
-        var currentGroup = [];
         for (var i = 0; i < numberOfGroups; i++) {
             groups.push([]);
         }
-        for (var i = 0; i < shuffled.length; i++) {
-            // currentGroup.push(shuffled[i]);
-            // if(currentGroup.length === maxNumber){
-            //     groups.push(currentGroup);
-            //     currentGroup = [];
-            // }
-
-            groups[j].push(shuffled[i]);
+        for (var x = 0; x < shuffled.length; x++) {
+            groups[j].push(shuffled[x]);
             j++;
-            if(j === numberOfGroups){
+            if(j === parseInt(numberOfGroups)){
                 j = 0;
             }
         }
@@ -100,7 +77,7 @@ class App extends Component {
 
 
     render() {
-        const {loading, names, groupsCreated} = this.state;
+        const {loading, groupsCreated} = this.state;
         if(loading){
             return(
                 <div id="App">

@@ -6,7 +6,7 @@ class InputForm extends Component {
         super(props);
         this.state = {
             selectedOption: 'numGroup',
-            numberOf: 3,
+            numberOf: 1,
             names: [],
             errors: {
                 names: false,
@@ -54,7 +54,7 @@ class InputForm extends Component {
             numbers: false
         }
         if(this.state.names.length === 0){
-            errors['names'] = true;
+            // errors['names'] = true;
         }
         if(!this.state.numberOf){
             errors['numbers'] = true;
@@ -84,6 +84,7 @@ class InputForm extends Component {
                     placeholder="Enter Names..."
                     className={(errors.names ? 'error' : '')}
                     onChange={this.createNames}
+                    defaultValue="Andy&#13;Liam&#13;John&#13;Brayden&#13;Simon&#13;Ryley&#13;Matt&#13;Larissa&#13;Katherine&#13;Ruby&#13;Sophie&#13;Emma&#13;Yana&#13;Annie&#13;Antonia"
                     ></textarea>
                 <div className="formRow">
                     <div className="formCol">
