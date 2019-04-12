@@ -52,6 +52,7 @@ class App extends Component {
                 j = 0;
             }
         }
+        console.log(groups);
         this.setState({
             originalNames: values['names'],
             selectedOption: values['option'],
