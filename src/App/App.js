@@ -13,7 +13,7 @@ class App extends Component {
             groups: [],
             groupsCreated: false,
             selectedOption: 'numGroup',
-            numberOfGroups: 0,
+            numberOfGroups: 0
 
         }
         this.handleCreateSlots = this.handleCreateSlots.bind(this);
@@ -52,7 +52,6 @@ class App extends Component {
                 j = 0;
             }
         }
-        console.log(groups);
         this.setState({
             originalNames: values['names'],
             selectedOption: values['option'],

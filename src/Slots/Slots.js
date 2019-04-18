@@ -18,12 +18,14 @@ class Slots extends Component {
 
         this.state = {
             spinning: false,
+            matching: false,
             names: this.props.originalNames,
             groups: this.props.groups,
             matched: matches,
             slots: slots,
             currentSlot: 0,
-            currentGroupMatching: 0
+            currentGroupMatching: 0,
+            buttonText: 'Make Group'
         }
 
         this.startSpin = this.startSpin.bind(this);
@@ -32,7 +34,7 @@ class Slots extends Component {
     }
 
     startSpin(){
-        console.log(this.state.groups[0]);
+        console.log(this.state.groups[this.state.currentGroupMatching]);
         const self = this;
         this.setState({
             spinning: true
@@ -42,51 +44,49 @@ class Slots extends Component {
             let k = i;
             setTimeout(function(){
                 self.startOne(k);
-            }, 1000 * (k + 1));
+            }, 500 * (k + 1));
         }
-
     }
 
     startOne(i){
         const self = this;
         self.interval[i] = setInterval(
-            () => this.tick(i),1000
+            () => this.tick(i),500
         )
     }
 
     stopSpin(){
-        // const self = this;
-        // for (var i = 0; i < this.state.groups.length; i++) {
-        //     let k = i;
-        //     setTimeout(function(){
-        //         clearInterval(self.interval[k]);
-        //     }, 1000 * (k + 1));
-        // }
-        // console.log(this.state);
-
         const self = this;
+        this.setState({
+            matching: true,
+            buttonText: 'Make Group'
+        })
         let slots = this.state.slots
         let numberOfSlots = slots.length;
         let currentGroupMatching = this.state.currentGroupMatching;
         let currentSlot = this.state.currentSlot;
         if(currentSlot === numberOfSlots){
             this.setState({
-                spinning: false
+                spinning: false,
+                currentGroupMatching: currentGroupMatching + 1,
+                currentSlot: 0,
+                matching: false,
+                buttonText: 'Make Next Group'
             });
+            if(this.state.currentGroupMatching === this.state.groups.length){
+                this.setState({
+                    buttonText: 'Group Again',
+                    currentGroupMatching: 0
+                })
+            }
             return;
         }
-        // if(currentSlot === slotNumbers){
-        //     return;
-        // }
+
         let expected = this.state.groups[currentGroupMatching][currentSlot];
         let current = slots[currentSlot][0];
-        console.log("needs to stop on " + expected);
-        console.log("current is " + current);
-
         clearInterval(self.interval[currentSlot]);
 
         if(expected !== current){
-            console.log("no match")
             self.slowDown(currentSlot);
         } else {
             this.setState({
@@ -94,44 +94,9 @@ class Slots extends Component {
             });
             self.stopSpin();
         }
-        //     setTimeout(function(){
-        //         self.tick(currentSlot);
-        //         self.stopSpin();
-        //     }, 800);
-        // } else {
-        //     console.log("matched");
-        // }
-
-
-
-
-
-
-        // console.log(slots[stoppingNum][0])
-        // for (var i = 0; i < slotNumbers; i++) {
-        //
-        //     let k = i;
-        //     let expected = this.state.groups[stoppingNum][k];
-        //     let current = slots[k][0];
-        //     console.log("needs to stop on " + this.state.groups[stoppingNum][k]);
-        //     console.log("current is " + slots[k][0]);
-        //     clearInterval(self.interval[k]);
-        //     // while(expected !== current){
-        //         self.tick(k)
-        //     // }
-        //     // if(expected !== current){
-        //     //     self.tick(stoppingNum)
-        //     // } else {
-        //     //     console.log("match");
-        //     //     // stoppingNum++;
-        //     // }
-        // }
-
-
     }
 
     slowDown(slotNum){
-        console.log("need to slow down");
         const self = this;
         setTimeout(function(){
             self.tick(slotNum);
@@ -164,12 +129,15 @@ class Slots extends Component {
     }
 
     render() {
-        const {spinning} = this.state;
+        const {spinning, matching, buttonText} = this.state;
         let button;
-        if(spinning){
+
+        if(matching){
+            button = <button id="matchingButton" type="button" className="btn btn-matching" disabled>Grouping.....</button>;
+        } else if(spinning){
             button = <button id="stopSpin" type="button" className="btn btn-stop" onClick={this.stopSpin}>Stop</button>;
         } else {
-            button = <button id="startGroup" type="button" className="btn btn-start" onClick={this.startSpin}>Make Group</button>;
+            button = <button id="startGroup" type="button" className="btn btn-start" onClick={this.startSpin}>{buttonText}</button>;
         }
         return (
             <div>
