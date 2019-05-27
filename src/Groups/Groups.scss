@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import '../variables';
+
+.groups{
+    position: absolute;
+    width: 40vw;
+    top: 0;
+    right: -40vw;
+    display: flex;
+    background-color: #95a5a6;
+    height: 100vh;
+    transition-property: right;
+    transition-duration: 0.7s;
+    &:hover{
+        cursor: pointer;
+        .handle{
+            .icon{
+                opacity: 0.5;
+            }
+        }
+    }
+    .handle{
+        position: absolute;
+        left: -20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        background-color: #7f8c8d;
+        height: 100vh;
+        .icon{
+            color: white;
+        }
+    }
+    .groupLists{
+        padding: 20px;
+        width: 100%;
+        h2{
+            color: #fff;
+            text-align: center;
+            font-weight: 300;
+            padding-bottom: 12px;
+            border-bottom: 2px solid white;
+        }
+        .group{
+            padding-top: 10px;
+            border-bottom: 2px solid white;
+            .listName{
+                margin-top: 5px;
+                list-style: none;
+                padding: 0;
+                display: flex;
+                justify-content: space-between;
+                li{
+                    padding:10px;
+                }
+            }
+        }
+    }
+
+}
+
+.open{
+    right: 0;
+}

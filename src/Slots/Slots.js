@@ -4,16 +4,12 @@ import './Slots.scss';
 class Slots extends Component {
     constructor(props){
         super(props);
-        var matches = [], slots = [];
-        for (var i = 0; i < this.props.groups[0].length; i++) {
-            matches.push(false);
-        }
+        var slots = [];
 
         for (var j = 0; j < this.props.groups[0].length; j++) {
             var newList = this.randomize(this.props.originalNames);
             let copyList = newList.slice();
             slots[j] = copyList;
-
         }
 
         this.state = {
@@ -21,11 +17,11 @@ class Slots extends Component {
             matching: false,
             names: this.props.originalNames,
             groups: this.props.groups,
-            matched: matches,
             slots: slots,
             currentSlot: 0,
             currentGroupMatching: 0,
-            buttonText: 'Make Group'
+            buttonText: 'Make Group',
+            groupsCreated: []
         }
 
         this.startSpin = this.startSpin.bind(this);
@@ -34,14 +30,34 @@ class Slots extends Component {
     }
 
     startSpin(){
-        console.log(this.state.groups[this.state.currentGroupMatching]);
+        if(this.state.buttonText === 'Randomize Again'){
+            var shuffled = this.randomize(this.state.names);
+            var j = 0;
+            var groups = [];
+            for (var i = 0; i < this.props.numberOfGroups; i++) {
+                groups.push([]);
+            }
+            for (var x = 0; x < shuffled.length; x++) {
+                groups[j].push(shuffled[x]);
+                j++;
+                if(j === parseInt(this.props.numberOfGroups)){
+                    j = 0;
+                }
+            }
+            this.setState({
+                names: shuffled,
+                groups: groups
+            })
+        }
+
+        // console.log(this.state.groups[this.state.currentGroupMatching]);
         const self = this;
         this.setState({
             spinning: true
         });
         self.interval = []
-        for (var i = 0; i < this.state.slots.length; i++) {
-            let k = i;
+        for (var a = 0; a < this.state.slots.length; a++) {
+            let k = a;
             setTimeout(function(){
                 self.startOne(k);
             }, 500 * (k + 1));
@@ -66,17 +82,25 @@ class Slots extends Component {
         let currentGroupMatching = this.state.currentGroupMatching;
         let currentSlot = this.state.currentSlot;
         if(currentSlot === numberOfSlots){
+            let groupsMatched = this.state.groupsCreated;
+            groupsMatched.push(this.state.groups[currentGroupMatching]);
+
             this.setState({
                 spinning: false,
                 currentGroupMatching: currentGroupMatching + 1,
                 currentSlot: 0,
                 matching: false,
-                buttonText: 'Make Next Group'
+                buttonText: 'Make Next Group',
+                groupsCreated: groupsMatched
             });
+
+            this.props.completedGroups(groupsMatched);
+
             if(this.state.currentGroupMatching === this.state.groups.length){
                 this.setState({
-                    buttonText: 'Group Again',
-                    currentGroupMatching: 0
+                    buttonText: 'Randomize Again',
+                    currentGroupMatching: 0,
+                    groupsCreated: []
                 })
             }
             return;

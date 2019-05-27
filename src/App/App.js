@@ -3,6 +3,7 @@ import './App.scss';
 import Loader from '../Loader/Loader';
 import InputForm from '../InputForm/InputForm';
 import Slots from '../Slots/Slots';
+import Groups from '../Groups/Groups';
 
 class App extends Component {
     constructor(props){
@@ -13,10 +14,14 @@ class App extends Component {
             groups: [],
             groupsCreated: false,
             selectedOption: 'numGroup',
-            numberOfGroups: 0
-
+            numberOfGroups: 0,
+            groupsMatched: [
+                ["Brayden", "Yana", "John", "Sophief", "Annie"]
+            ]
         }
+
         this.handleCreateSlots = this.handleCreateSlots.bind(this);
+        this.completedGroups = this.completedGroups.bind(this);
     }
 
     componentDidMount () {
@@ -28,7 +33,7 @@ class App extends Component {
     handleCreateSlots(values){
         this.setState({
             loading: true
-        })
+        });
         var numberOfGroups;
         // var maxNumber;
         if(values['option'] === 'numGroup'){
@@ -37,14 +42,14 @@ class App extends Component {
         } else {
             numberOfGroups = Math.ceil(values['names'].length / values['number']);
             // maxNumber = values['number'];
-        }
+        };
         var shuffled = this.randomize(values['names']);
 
         var j = 0;
         var groups = [];
         for (var i = 0; i < numberOfGroups; i++) {
             groups.push([]);
-        }
+        };
         for (var x = 0; x < shuffled.length; x++) {
             groups[j].push(shuffled[x]);
             j++;
@@ -75,6 +80,12 @@ class App extends Component {
         return array;
     }
 
+    completedGroups(groups){
+        console.log(groups);
+        this.setState({
+            groupsMatched: groups
+        })
+    }
 
     render() {
         const {loading, groupsCreated} = this.state;
@@ -95,6 +106,10 @@ class App extends Component {
                             originalNames={this.state.originalNames}
                             numberOfGroups={this.state.numberOfGroups}
                             groups={this.state.groups}
+                            completedGroups={this.completedGroups}
+                        />}
+                    {groupsCreated && <Groups
+                            groups={this.state.groupsMatched}
                         />}
                 </div>
             );
